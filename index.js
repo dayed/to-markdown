@@ -131,6 +131,7 @@ function replacementForNode(node, doc) {
     if (canConvertNode(node, converter.filter)) {
       var replacement = converter.replacement;
       var text;
+      var textNode;
       var leadingSpace = '';
       var trailingSpace = '';
 
@@ -153,8 +154,10 @@ function replacementForNode(node, doc) {
       }
 
       text = replacement.call(toMarkdown, decodeHTMLEntities(node.innerHTML), node);
+      textNode = doc.createTextNode(leadingSpace + text + trailingSpace);
+      textNode._attributes = node.attributes;
 
-      return doc.createTextNode(leadingSpace + text + trailingSpace);
+      return textNode;
     }
   }
   return null;
